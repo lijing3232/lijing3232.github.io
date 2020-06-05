@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="左耳听风," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="下列代码是在《雷神之锤III竞技场》源代码中的一个函数（已经剥离了C语言预处理器的指令）。其实，最早在2002年（或2003年）时，这段平方根倒数速算法的代码就已经出现在Usenet与其他论坛上了。这段代码在程序员圈内引起了非常大的讨论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="魔数 0x5f3759df">
+<meta property="og:url" content="https://lijing3232.github.io/2020/06/05/%E9%AD%94%E6%95%B0%200x5f3759df/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="下列代码是在《雷神之锤III竞技场》源代码中的一个函数（已经剥离了C语言预处理器的指令）。其实，最早在2002年（或2003年）时，这段平方根倒数速算法的代码就已经出现在Usenet与其他论坛上了。这段代码在程序员圈内引起了非常大的讨论。">
+<meta property="article:published_time" content="2020-06-05T06:18:54.000Z">
+<meta property="article:modified_time" content="2020-06-05T08:01:20.544Z">
+<meta property="article:author" content="jing">
+<meta property="article:tag" content="左耳听风">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lijing3232.github.io/2020/06/05/魔数 0x5f3759df/"/>
+
+
+
+
+
+  <title>魔数 0x5f3759df | Hexo</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lijing3232.github.io/2020/06/05/%E9%AD%94%E6%95%B0%200x5f3759df/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/live2d.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">魔数 0x5f3759df</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-05T14:18:54+08:00">
+                2020-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AC%E8%BD%BD/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/06/05/%E9%AD%94%E6%95%B0%200x5f3759df/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/06/05/魔数 0x5f3759df/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下列代码是在《雷神之锤III竞技场》源代码中的一个函数（已经剥离了C语言预处理器的指令）。其实，最早在2002年（或2003年）时，这段平方根倒数速算法的代码就已经出现<br>在Usenet与其他论坛上了。这段代码在程序员圈内引起了非常大的讨论。<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">foat Q_rsqrt( foat number )</span><br><span class="line">&#123;</span><br><span class="line"> long i;</span><br><span class="line"> foat x2, y;</span><br><span class="line"> cons foat threehalfs &#x3D; 1.5F;</span><br><span class="line"> x2 &#x3D; number * 0.5F;</span><br><span class="line"> y &#x3D; number;</span><br><span class="line"> i &#x3D; * ( long * ) &amp;y; &#x2F;&#x2F; evil foating point bit level hacking</span><br><span class="line"> i &#x3D; 0x5f3759df - ( i &gt;&gt; 1 ); &#x2F;&#x2F; what the fuck? </span><br><span class="line"> y &#x3D; * ( foat * ) &amp;i;</span><br><span class="line"> y &#x3D; y * ( threehalfs - ( x2 * y * y ) ); &#x2F;&#x2F; 1s iteration </span><br><span class="line"> &#x2F;&#x2F; 2nd iteration, this can be removed</span><br><span class="line"> &#x2F;&#x2F; y &#x3D; y * ( threehalfs - ( x2 * y * y ) ); </span><br><span class="line"> return y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>这段代码读起来完全不知所云，尤其是那个魔数0x5f3759df，完全不知道是个什么东西，所以，注释里也是 What the fuck。今天的这篇文章主要是想带你来了解一下这个函数中<br>的代码究竟是怎样出来的。<br>其实，这个函数的作用是求平方根倒数，即$x^{-1/2}$，也就是下面这个算式：</p>
+<script type="math/tex; mode=display">\frac{1}{\sqrt{x}}</script><p>当然，它算的是近似值。只不过这个近似值的精度很高，而且计算成本比传统的浮点数运算平方根的算法低太多。在以前那个计算资源还不充分的年代，在一些3D游戏场景的计算机<br>图形学中，要求取照明和投影的光照与反射效果，就经常需要计算平方根倒数，而且是大量的计算——对一个曲面上很多的点做平方根倒数的计算。也就是需要用到下面的这个算<br>式，其中的x,y,z是3D坐标上的一个点的三个坐标值。</p>
+<script type="math/tex; mode=display">\frac{1}{\sqrt{x^{2}+y^{2}+z^{2}}}</script><p>基本上来说，在一个3D游戏中，我们每秒钟都需要做上百万次平方根倒数运算。而在计算硬件还不成熟的时代，这些计算都需要软件来完成，计算速度非常慢。我们要知道，在上世<br>纪90年代，多数浮点数操作的速度更是远远滞后于整数操作。所以，这段代码所带来的作用是非常大的。  </p>
+<h3 id="计算机的浮点数表示"><a href="#计算机的浮点数表示" class="headerlink" title="计算机的浮点数表示"></a>计算机的浮点数表示</h3><p>为了讲清楚这段代码，我们需要先了解一下计算机的浮点数表示法。在C语言中，计算机的浮点数表示用的是IEEE 754 标准，这个标准的表现形式为，把一个32bits分成三段。  </p>
+<ul>
+<li>第一段占1bit。表示符号位。代称为S（sign）。</li>
+<li>第二段占8bits。表示指数。代称为E（Exponent）。</li>
+<li>第三段占23bits。表示尾数。代称为M（Mantissa）。 </li>
+<li>如下图所示：</li>
+</ul>
+<p>然后呢，一个小数的计算方式是下面这个算式：</p>
+<script type="math/tex; mode=display">(-1)^{S}\ast(1+\frac{M}{2^{23}})\ast 2^{(E-127)}</script><p>但是，这个算式基本上来说，完全就是让人一头雾水，摸不着门路。对于浮点数的解释基本上就是下面这张漫画里表现的样子。</p>
+<p>下面，让我来试着解释一下浮点数的那三段表示什么意思  </p>
+<ul>
+<li>第一段符号位。对于这一段，我相信应该没有人不能理解。  </li>
+<li>第二段指数位。什么叫指数？也就是说，对于任何数x，其都可以找到一个$n$，使得$2^{n}$&lt;=x&lt;=$2^{n+1}$。比如：对于3来说，因为 2 &lt; 3 &lt; 4，所以 n=1。而浮<br>点数的这个指数为了要表示0.00x的小数，所以需要有负数，这8个bits本来可以表示0-255。为了表示负的，取值要放在 [-127,128] 这个区间中。这就是为什么我们在上面的<br>公式中看到的 $2^{(E-127)}$这一项了。也就是说，$n = E-127$，如果$n=1$，那么$E$就是128了。  </li>
+<li>第三段尾数位。也就是小数位，但是这里叫偏移量可能好一些。这里的取值是从[ 0 - $2^{23}$]中。你可以认为，我们把一条线分成$2^{23}$个线段，也就是8388608个线<br>段。也就是说，把$2^{n}$到$2^{n+1}$分成了8388608个线段。而存储的M值，就是从$2^n$到 x 要经过多少个段。这要计算一下，$2^{n}$到x的长度<br>占$2^{n}$到$2^{n+1}$长度的比例是多少<br>我估计你对第三段还是有点不懂，那么我们来举一个例子。比如说，对3.14这个小数。  </li>
+<li>是正数。所以，S = 0</li>
+<li>$2^1$ &lt; 3.14 &lt;$2^2$。所以，n=1， n+127 = 128。所以，E=128。</li>
+<li>(3.14 - 2) / (4 - 2) = 0.57， 而$0.57*2^{23} = 4781506.56$，四舍五入，得到M = 4781507。因为有四舍五入，所以，产生了浮点数据的精度问题。<br>把S、E、M转成二进制，得到 3.14的二进制表示。<br>我们再用IEEE 754的那个算式来算一下：<script type="math/tex; mode=display">{(-1)}^0*({1+\frac{4781507}{2^{23}}})*2^{(128-127)}</script><script type="math/tex; mode=display">1*(1+0.5700000524520874)*2</script><script type="math/tex; mode=display">=3.1400001049041748046875</script>你看，浮点数的精度问题出现了。</li>
+</ul>
+<p>我们再来看一个示例，小数 0.015是正数。所以，S = 0。<br>$2^{-7}&lt; 0.015 &lt; 2^{-6}$ 。所以，n=-7， n+127 = 120。所以，E=120。<br>$ (0.015 - 2^{-7}) / (2^{-6} - 2^{-7}) $ = $0.0071875/0.0078125=0.92$。而$0.92 * 2^{23} = 7717519.36$，四舍五入，得到 M = 7717519。<br>于是，我们得到0.015的二进制编码：<br>其中：<br>120 的二进制是01111000<br>7717519的二进制是11101011100001010001111<br>返回过来算一下：</p>
+<script type="math/tex; mode=display">(-1)^{0}\ast (1+\frac{7717519}{2^{23}})\ast 2^{(120-127)}</script><script type="math/tex; mode=display">(1+0.919999957084656)*0.0078125</script><script type="math/tex; mode=display">=0.014999999664724</script><p>你看，浮点数的精度问题又出现了。</p>
+<p>我们来用C语言验证一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int main() &#123;</span><br><span class="line"> foat x &#x3D; 3.14;</span><br><span class="line"> foat y &#x3D; 0.015;</span><br><span class="line"> return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>在我的Mac上用lldb 工具 Debug 一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(lldb) frame variable</span><br><span class="line">(foat) x &#x3D; 3.1400001</span><br><span class="line">(foat) y &#x3D; 0.0149999997</span><br><span class="line">(lldb) frame variable -f b</span><br><span class="line">(foat) x &#x3D; 0b01000000010010001111010111000011</span><br><span class="line">(foat) y &#x3D; 0b00111100011101011100001010001111</span><br></pre></td></tr></table></figure></p>
+<p>从结果上，完全验证了我们的方法。<br>好了，不知道你看懂了没有？我相信你应该看懂了。<br>简化浮点数公式<br>因为那个浮点数表示的公式有点复杂，我们简化一下：</p>
+<script type="math/tex; mode=display">(-1)^{S}\ast (1+\frac{M}{2^{23}})\ast 2^{(E-127)}</script><p>我们令，$m = (\frac{M}{2^{23}} )$，$e = (E-127)$。因为符号位在$y= x^{-\frac{1}{2}}$的两端都是0（正数），也就可以去掉，所以浮点数的算式简化为：</p>
+<script type="math/tex; mode=display">(1+m)\ast2^{e}</script><p>上面这个算式是从一个32bits二进制计算出一个浮点数。这个32bits的整型算式是：</p>
+<script type="math/tex; mode=display">M+E\ast2^{23}</script><p>比如，0.015的32bits的二进制是：00111100011101011100001010001111，也就是整型的：</p>
+<script type="math/tex; mode=display">7717519+120\ast 2^{23}</script><script type="math/tex; mode=display">= 1014350479</script><script type="math/tex; mode=display">= 0X3C75C28F</script><p>平方根倒数公式推导<br>下面，你会看到好多数学公式，但是请你不要怕，因为这些数学公式只需要高中数学就能看懂的。<br>我们来看一下，平方根数据公式：</p>
+<script type="math/tex; mode=display">y=\frac{1}{\sqrt[2]{x}}=x^{-\frac{1}{2}}</script><p>等式两边取以2为基数的对数，就有了：</p>
+<script type="math/tex; mode=display">\log_2(y) =-\frac{1}{2}\log_2(x)</script><p>因为我们实际上在算浮点数，所以将公式中的 x 和 y 分别用浮点数的那个浮点数的简化算式$ (1+ m)*2^e$替换掉。代入$\log()$公式中，我们也就有了下面的公式：</p>
+<script type="math/tex; mode=display">\log_{2} (1+m_y)+e_y</script><script type="math/tex; mode=display">=-\frac{1}{2}(\log_2(1+m_x)+e_x)</script><p>因为有对数，这公式看着就很麻烦，似乎不能再简化了。但是，我们知道，所谓的$m_x$或是$m_y$，其实是个在0和1区间内的小数。在这种情况下，$\log_2 (1.x)$接近一条直线。</p>
+<p>那么我们就可以使用一个直线方程来代替，也就是：</p>
+<script type="math/tex; mode=display">\log_{2}(1+m)\approx m+\sigma</script><p>于是，我们的公式就简化成了：</p>
+<script type="math/tex; mode=display">m_y+\sigma+e_y\approx-\frac{1}{2}(m_x+\sigma+e_x)</script><p>因为$m = (\frac{M}{2^{23}})$，$e = (E-127)$，代入公式，得到：</p>
+<script type="math/tex; mode=display">\frac{M_y}{2^{23}}+\sigma+E_y-127</script><script type="math/tex; mode=display">\approx-\frac{1}{2}(\frac{M_x}{2^{23}}+\sigma+E_x-127)</script><p>移项整理一下，把 σ 和127 从左边，移到右边：</p>
+<script type="math/tex; mode=display">\frac{M_y}{2^{23}}+E_y\approx-\frac{1}{2}(\frac{M_x}{2^{23}}+E_x)-\frac{3}{2}(\sigma-127)</script><p>再把整个表达式乘以$2^{23}$，得到：</p>
+<script type="math/tex; mode=display">{M_y}+E_y{2^{23}}</script><script type="math/tex; mode=display">\approx-\frac{1}{2}(M_x+E_x{2^{23}})-\frac{3}{2}(\sigma-127){2^{23}}</script><p>可以看到一个常数：$-\frac{3}{2}(\sigma-127){2^{23}}$，把负号放进括号里，变成$\frac{3}{2}(127-\sigma){2^{23}}$，并可以用一个常量代数R来取代，于是得<br>到公式：</p>
+<script type="math/tex; mode=display">{M_y}+E_y{2^{23}}\approx R-\frac{1}{2}(M_x+E_x{2^{23}})</script><p>还记得我们前面那个“浮点数32bits二进制整型算式” $M+E* 2^{23}$吗？假设，浮点数x的32bits的整型公式是：$I_x= M_x+ E_x 2^{23}$，那么上面的公式就可以写成：</p>
+<script type="math/tex; mode=display">I_y\approx R-\frac{1}{2}I_x</script><script type="math/tex; mode=display">I_{y'} = I_y(1.5-0.5 x I_y^2)</script><p>这段代码相当于下面这个公式：</p>
+<script type="math/tex; mode=display">I_{y'} = I_y(1.5-0.5 x I_y^2)</script><p>这个其实是“牛顿求根法”，这是一个为了找到一个 f(x)= 0 的根而用一种不断逼近的计算方式。请看下图：<br>首先，初始值为X0，然后找到X0所对应的Y0（把X0代入公式得到Y0 = f(X0)），然后在（X0,Y0）这个点上做一个切线，得到与X轴交汇的X1。再用X1做一次上述的迭代，得<br>到X2，就这样一直迭代下去，一直找到，y = 0时，x的值。<br>牛顿法的通用公式是：</p>
+<script type="math/tex; mode=display">x_{n+1}=x_n-\frac{f(x_n)}{f'(x_n)}</script><p>于是，对于$y= \frac{1}{\sqrt{x}}$来说，对固定的x（常数），我们求y使得$\frac{1}{y^2}-x=0$，$f(y)= \frac{1}{y^2} -x$ , $f’(y)=\frac{-2}{y^3}$ 。 注<br>意：$f’(y)$是$f(y)$关于y的导数。<br>代入上述的牛顿法的通用公式后得到：</p>
+<script type="math/tex; mode=display">y_{n+1}=y_n-\frac{\frac{1}{y_n^2}-x}{\frac{-2}{y_n^3}}</script><script type="math/tex; mode=display">=\frac{y_n(3-xy_n^2)}{2}=y_n(1.5-0.5xy_n^2)</script><p>正好就是我们上面的代码<br>整个代码是，之前生成的整数操作产生首次近似值后，将首次近似值作为参数送入函数最后两句进行精化处理。代码中的两次迭代正是为了进一步提高结果的精度。但由于《雷神之<br>锤III》的图形计算中并不需要太高的精度，所以代码中只进行了一次迭代，二次迭代的代码则被注释了。<br>相关历史<br>根据Wikipedia上的描述。《雷神之锤III》的代码直到QuakeCon 2005才正式放出，但早在2002年（或2003年）时，平方根倒数速算法的代码就已经出现在Usenet和其他论坛<br>上了。最初人们猜测是《雷神之锤》的创始人John Carmack写下了这段代码，但他在回复询问他的邮件时否定了这个观点，并猜测可能是先前曾帮id Software优化《雷神之锤》<br>的资深汇编程序员Terje Mathisen写下了这段代码。<br>而Mathisen的邮件里表示，在1990年代初，他只曾做过类似的实现，确切来说这段代码亦非他所作。现在所知的最早实现是由Gary Tarolli在SGI Indigo中实现的，但他亦坦承他<br>仅对常数R的取值做了一定的改进，实际上他也不是作者。<br>在向以发明MATLAB而闻名的Cleve Moler查证后，Rys Sommefeldt则认为原始的算法是Ardent Computer公司的Greg Walsh所发明的，但他也没有任何确定性的证据能证明这<br>一点。<br>不仅该算法的原作者不明，人们也仍无法确定当初选择这个“魔术数字”的方法。Chris Lomont曾做了个研究：他推算出了一个函数以讨论此速算法的误差，并找出了使误差最小的最<br>佳R值0x5f37642f（与代码中使用的0x5f3759df相当接近）。但以之代入算法计算并进行一次牛顿迭代后，所得近似值之精度仍略低于代入0x5f3759df的结果。<br>因此，Lomont将目标改为查找在进行1-2次牛顿迭代后能得到最大精度的R值，在暴力搜索后得出最优R值为0x5f375a86，以此值代入算法并进行牛顿迭代，所得的结果都比代入<br>原始值（0x5f3759df）更精确。于是他说，“如果可能我想询问原作者，此速算法是以数学推导还是以反复试错的方式求出来的？”<br>Lomont亦指出，64位的IEEE754浮点数（即双精度类型）所对应的魔术数字是0x5fe6ec85e7de30da。但后来的研究表明，代入0x5fe6eb50c7aa19f9的结果精确度更高<br>（McEniry得出的结果则是0x5fe6eb50c7b537aa，精度介于两者之间）。<br>后来Charles McEniry使用了一种类似Lomont但更复杂的方法来优化R值。他最开始使用穷举搜索，所得结果与Lomont相同。而后他尝试用带权二分法寻找最优值，所得结果恰是<br>代码中所使用的魔术数字0x5f3759df。因此，McEniry认为，这一常数最初或许便是以“在可容忍误差范围内使用二分法”的方式求得。<br>  这可能是编程世界里最经典的魔数的故事，希望你能够从这篇文章中收获一些数学的基础知识。数学真是需要努力学习好的一门功课，尤其在人工智能火热的今天。</p>
+<hr>
+<p>转载自《左耳听风》</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B7%A6%E8%80%B3%E5%90%AC%E9%A3%8E/" rel="tag"># 左耳听风</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/05/%E5%B7%A6%E8%80%B3%E5%90%AC%E9%A3%8E%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="prev" title="左耳听风读书笔记">
+                左耳听风读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/live2d.png"
+                alt="jing" />
+            
+              <p class="site-author-name" itemprop="name">jing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机的浮点数表示"><span class="nav-number">1.</span> <span class="nav-text">计算机的浮点数表示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jing</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://lijing3232.github.io/2020/06/05/%E9%AD%94%E6%95%B0%200x5f3759df/';
+          this.page.identifier = '2020/06/05/魔数 0x5f3759df/';
+          this.page.title = '魔数 0x5f3759df';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
